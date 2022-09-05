@@ -5,10 +5,12 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://lws-server-client.herokuapp.com",
   }),
+  tagTypes: ["Videos"],
   endpoints: (builder) => ({
     getVideos: builder.query({
       query: () => "/videos",
       keepUnusedDataFor: 600,
+      providesTags: ["Videos"],
     }),
     getVideo: builder.query({
       query: (videoId) => `/videos/${videoId}`,
@@ -28,6 +30,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Videos"],
     }),
   }),
 });
