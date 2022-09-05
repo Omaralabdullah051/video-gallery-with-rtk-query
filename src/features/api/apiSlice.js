@@ -5,5 +5,11 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://lws-server-client.herokuapp.com",
   }),
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getVideos: builder.query({
+      query: () => "/videos",
+    }),
+  }),
 });
+
+export const { useGetVideosQuery } = apiSlice;
