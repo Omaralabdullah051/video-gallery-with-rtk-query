@@ -16,6 +16,10 @@ export default function Videos() {
         <VideoLoader />
         <VideoLoader />
         <VideoLoader />
+        <VideoLoader />
+        <VideoLoader />
+        <VideoLoader />
+        <VideoLoader />
       </>
     );
   }
