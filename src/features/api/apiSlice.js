@@ -25,7 +25,7 @@ export const apiSlice = createApi({
         return queryString;
       },
       providesTags: (result, error, arg) => [
-        { type: "RelatedVideos", id: arg },
+        { type: "RelatedVideos", id: arg.id },
       ],
     }),
     addVideo: builder.mutation({
