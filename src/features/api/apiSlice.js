@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://lws-server-client.herokuapp.com",
   }),
-  tagTypes: ["Videos"],
+  tagTypes: ["Videos", "Video", "RelatedVideos"],
   endpoints: (builder) => ({
     getVideos: builder.query({
       query: () => "/videos",
@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     }),
     getVideo: builder.query({
       query: (videoId) => `/videos/${videoId}`,
+      providesTags: (result, error, arg) => [{ type: "Video", id: arg }],
     }),
     getRelatedVideos: builder.query({
       query: ({ id, title }) => {
@@ -23,6 +24,9 @@ export const apiSlice = createApi({
 
         return queryString;
       },
+      providesTags: (result, error, arg) => [
+        { type: "RelatedVideos", id: arg },
+      ],
     }),
     addVideo: builder.mutation({
       query: (data) => ({
@@ -32,6 +36,18 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Videos"],
     }),
+    editVideo: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/videos/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        "Videos",
+        { type: "Video", id: arg.id },
+        { type: "RelatedVideos", id: arg.id },
+      ],
+    }),
   }),
 });
 
@@ -40,4 +56,5 @@ export const {
   useGetVideoQuery,
   useGetRelatedVideosQuery,
   useAddVideoMutation,
+  useEditVideoMutation,
 } = apiSlice;
